@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34707.107
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testovoe.LogsViewer", "Testovoe.LogsViewer\Testovoe.LogsViewer.csproj", "{889CEF74-CAA7-4002-AC19-9700C8985CF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Testovoe.LogsViewer", "Testovoe.LogsViewer\Testovoe.LogsViewer.csproj", "{889CEF74-CAA7-4002-AC19-9700C8985CF2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F8BC0A51-9B4C-4C89-AC91-F5AB30324111}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
