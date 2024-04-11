@@ -3,7 +3,7 @@
 namespace Testovoe.LogsViewer.Shared.ValidationAttributes;
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-internal class DateFormatAttribute(string dateTimeFormat) : ValidationAttribute
+public class DateFormatAttribute(string dateTimeFormat) : ValidationAttribute
 {
     private readonly string _dateTimeFormat = dateTimeFormat;
     private string _toValidate = string.Empty;
