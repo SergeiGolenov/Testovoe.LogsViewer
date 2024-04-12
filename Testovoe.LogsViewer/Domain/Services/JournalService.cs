@@ -21,7 +21,7 @@ public class JournalService(
         using FileStream input = new(_appOptions.Value.FileLog, FileMode.Open);
         using FileStream output = new(_appOptions.Value.FileOutput, FileMode.Append);
 
-        int i = 1;
+        int i = 0;
         await foreach (JournalEntry entry in _journalReader.ReadAll(input))
         {
             if (_journalEntryMatcher.Match(entry))
