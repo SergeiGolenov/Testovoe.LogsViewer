@@ -9,33 +9,32 @@ public class JournalEntryMatcher(IOptions<AppOptions> appOptions) : IJournalEntr
 {
     private readonly IOptions<AppOptions> _appOptions = appOptions;
 
-    public bool Match(JournalEntry journalEntry)
+    public bool Match(JournalEntry entry)
     {
         if (_appOptions.Value.AddressStart != null)
         {
-            if (GetUnmaskedBits(journalEntry.Address) <
-                GetUnmaskedBits(IPAddress.Parse(_appOptions.Value.AddressStart)))
+            int mask = _appOptions.Value.AddressMask;
+            IPAddress startAddress = IPAddress.Parse(_appOptions.Value.AddressStart);
+
+            uint maskBits = Convert.ToUInt32(Math.Pow(2, mask) - 1) << (32 - mask);
+            uint startAddressBits = BitConverter.ToUInt32(startAddress.GetAddressBytes().Reverse().ToArray());
+            uint entryAddressBits = BitConverter.ToUInt32(entry.Address.GetAddressBytes().Reverse().ToArray());
+
+            uint subnetBits = startAddressBits & maskBits;
+
+            if (((entryAddressBits & maskBits) | subnetBits) == subnetBits)
+            {
+                if (entryAddressBits < startAddressBits) return false;
+            }
+            else
             {
                 return false;
             }
         }
 
-        if ((_appOptions.Value.ParsedTimeStart < journalEntry.Date
-            && journalEntry.Date < _appOptions.Value.ParsedTimeEnd) == false) return false;
+        if (!(_appOptions.Value.ParsedTimeStart < entry.Date
+            && entry.Date < _appOptions.Value.ParsedTimeEnd)) return false;
 
         return true;
-    }
-
-    private uint GetUnmaskedBits(IPAddress ip)
-    {
-        byte[] ipBytes = ip.GetAddressBytes();
-        Array.Reverse(ipBytes);
-
-        uint ipBits = BitConverter.ToUInt32(ipBytes);
-
-        ipBits <<= _appOptions.Value.AddressMask;
-        ipBits >>= _appOptions.Value.AddressMask;
-
-        return ipBits;
     }
 }
